@@ -18,23 +18,22 @@ class VideoManager {
             .catch((err) => {
                 console.log(`Pexels backend error: ${err}`);
             });
-
     }
 
     static render(jsonData) {
-        console.log(jsonData);
-        let videoData = jsonData["videos"][0]["video_files"][2];
+        let videoData = jsonData["videos"];
         console.log(videoData)
-
+        //
         videoData.forEach((element) => {
+            let link = element["video_files"][0]["link"];
+
             let videoHTML = document.createElement("video");
-            videoHTML.src = element.link;
+            videoHTML.src = link;
+            videoHTML.controls = true;
             document.getElementById('video-cnt').append(videoHTML);
         });
-
     }
 }
-
 
 document.getElementById('btn').addEventListener("click", function (e: MouseEvent) {
     VideoManager.getVideoAPIData();
