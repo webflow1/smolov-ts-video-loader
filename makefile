@@ -1,2 +1,0 @@
-build:
-	tsc index.ts
