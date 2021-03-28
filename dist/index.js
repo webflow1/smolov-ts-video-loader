@@ -1,27 +1,33 @@
-console.log("hello world");
-var User = /** @class */ (function () {
-    function User(name, password, age) {
-        this.name = name;
-        this.password = password;
-        this.age = age;
+var apiKey = "563492ad6f917000010000012b3ad65893e94c338d1e0b951fa5a507";
+var VideoManager = /** @class */ (function () {
+    function VideoManager() {
     }
-    User.prototype.getPassword = function () {
-        return this.password;
+    VideoManager.getVideoAPIData = function () {
+        var _this = this;
+        var request = new Request("https://api.pexels.com/videos/popular?per_page=3", {
+            method: "GET",
+            headers: {
+                "Authorization": apiKey
+            }
+        });
+        fetch(request)
+            .then(function (resp) { return resp.json(); })
+            .then(function (jsonResp) { return _this.render(jsonResp); })["catch"](function (err) {
+            console.log("Pexels backend error: " + err);
+        });
     };
-    return User;
+    VideoManager.render = function (jsonData) {
+        console.log(jsonData);
+        var videoData = jsonData["videos"][0]["video_files"][2];
+        console.log(videoData);
+        videoData.forEach(function (element) {
+            var videoHTML = document.createElement("video");
+            videoHTML.src = element.link;
+            document.getElementById('video-cnt').append(videoHTML);
+        });
+    };
+    return VideoManager;
 }());
-var user2 = new User("Name", "qwerty", 12);
-console.log(user2.age);
-function varType(arg) {
-    return arg;
-}
-var type1 = varType(12);
-function genericType(arg) {
-    return "yhis is my type  variable " + arg.toString;
-}
-var gent = genericType("23");
-console.log(gent);
-var gent1 = genericType(true);
-console.log(gent1);
-var video = { id: "12", name: "Video name" };
-console.log(video.id);
+document.getElementById('btn').addEventListener("click", function (e) {
+    VideoManager.getVideoAPIData();
+});
