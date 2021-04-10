@@ -1,5 +1,30 @@
 const apiKey = "563492ad6f917000010000012b3ad65893e94c338d1e0b951fa5a507"
 
+interface PexelsVideoFiles {
+    link: string;
+    width: number;
+    height: number;
+} 
+
+interface PexelsVideo {
+    image:string;
+    video_files: PexelsVideoFiles[];
+}
+
+interface PexelsPopularVideoResponce {
+    per_page: number;
+    videos: PexelsVideo[];
+
+}
+
+class ApiManager {
+    static async getVideoApiData( request: Request): Promise<any> {
+
+
+    } 
+}
+
+
 class VideoManager {
     static getVideoAPIData() {
         let request: Request = new Request(
@@ -20,21 +45,31 @@ class VideoManager {
             });
     }
 
-    static render(jsonData) {
+    static render(jsonData: any) {
+        console.log(jsonData)
         let videoData = jsonData["videos"];
-        console.log(videoData)
-        //
-        videoData.forEach((element) => {
+        
+        
+        const htmlVideoCnt = document.getElementById('video-cnt'); 
+        if (htmlVideoCnt == undefined) {
+            throw new Error ("Video element is null")
+        }
+        videoData.forEach((element: any) => {
             let link = element["video_files"][0]["link"];
 
             let videoHTML = document.createElement("video");
             videoHTML.src = link;
             videoHTML.controls = true;
-            document.getElementById('video-cnt').append(videoHTML);
+            htmlVideoCnt.append(videoHTML);            
         });
     }
 }
 
-document.getElementById('btn').addEventListener("click", function (e: MouseEvent) {
+const htmlButton  = document.getElementById('btn')
+if (htmlButton == undefined) {
+    throw new Error("btn element is null")
+}
+
+document.getElementById('btn')?.addEventListener("click", function (e: MouseEvent) {
     VideoManager.getVideoAPIData();
 })
