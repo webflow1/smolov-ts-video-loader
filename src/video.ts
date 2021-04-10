@@ -54,19 +54,7 @@ class VideoManager {
                 })
             });
 
-        // console.log(jsonData)
-        // let videoData = jsonData["videos"];
 
-
-        
-        // videoData.forEach((element: any) => {
-        //     let link = element["video_files"][0]["link"];
-
-        //     let videoHTML = document.createElement("video");
-        //     videoHTML.src = link;
-        //     videoHTML.controls = true;
-        //     htmlVideoCnt.append(videoHTML);
-        // });
 }
 
 static renderVideo(link: string, parentHTML: HTMLDivElement): void {
